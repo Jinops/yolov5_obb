@@ -1,8 +1,8 @@
-weights: weights/yolov5n.pt
+weights: weights\yolov5n.pt
 cfg: ''
-data: /content/datasets/roboflow/data.yaml
-hyp: data/hyps/obb/hyp.finetune_dota.yaml
-epochs: 10
+data: ../datasets/roboflow/data.yaml
+hyp: data\hyps\obb\hyp.finetune_dota.yaml
+epochs: 1
 batch_size: 1
 imgsz: 640
 rect: false
@@ -20,7 +20,7 @@ single_cls: false
 adam: false
 sync_bn: false
 workers: 8
-project: runs/train
+project: runs\train
 name: exp
 exist_ok: true
 quad: false
@@ -35,4 +35,4 @@ entity: null
 upload_dataset: false
 bbox_interval: -1
 artifact_alias: latest
-save_dir: runs/train/exp
+save_dir: runs\train\exp
