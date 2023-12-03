@@ -4,5 +4,5 @@ train: train/images
 val: valid/images
 test: test/images
 
-nc: 2
-names: ['baggage', 'dummy']
+nc: 3
+names: ['plane','small-vehicle','large-vehicle']
