@@ -62,6 +62,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         hide_conf=False,  # hide confidences
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
+        return_result=False,
         ):
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
@@ -153,10 +154,14 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
                 # Write results
+                result=[]
                 for *poly, conf, cls in reversed(det):
+                    if return_result or save_txt:
+                        poly = torch.tensor(poly).view(1, 8).view(-1).tolist() # https://github.com/hukaixuan19970627/yolov5_obb/issues/37
+                    if return_result:
+                        result.append((int(cls), [*poly], float(conf)))
                     if save_txt:  # Write to file
-                        # xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                        poly = poly = torch.tensor(poly).view(1, 8).view(-1).tolist() # https://github.com/hukaixuan19970627/yolov5_obb/issues/375
+                        # xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh5
                         line = (cls, *poly, conf) if save_conf else (cls, *poly)  # label format
                         with open(txt_path + '.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
@@ -206,6 +211,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
+    if return_result:
+        return result
+    return 
 
 
 def parse_opt():
