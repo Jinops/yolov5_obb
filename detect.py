@@ -98,6 +98,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         bs = 1  # batch_size
     vid_path, vid_writer = [None] * bs, [None] * bs
 
+    # result for return
+    result_for_return=[]
+
     # Run inference
     model.warmup(imgsz=(1, 3, *imgsz), half=half)  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
@@ -154,12 +157,11 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
                 # Write results
-                result=[]
                 for *poly, conf, cls in reversed(det):
                     if return_result or save_txt:
                         poly = torch.tensor(poly).view(1, 8).view(-1).tolist() # https://github.com/hukaixuan19970627/yolov5_obb/issues/37
                     if return_result:
-                        result.append((int(cls), [*poly], float(conf)))
+                        result_for_return.append((int(cls), [*poly], float(conf)))
                     if save_txt:  # Write to file
                         # xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh5
                         line = (cls, *poly, conf) if save_conf else (cls, *poly)  # label format
@@ -212,7 +214,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
     if return_result:
-        return result
+        return result_for_return
     return 
 
 
