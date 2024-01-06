@@ -13,5 +13,8 @@ After troubleshooting, I documented the issues and modifications of codes on the
 - cuda driver 12.2
 - GeForce RTX 3060
 
+## Model Training
+If you have trouble training a model with the original repository, you can use my [train_model.ipynb](https://github.com/Jinops/conveyor-alignment-robot/blob/main/model/train_model.ipynb).
+
 ## Wiki
 https://github.com/Jinops/yolov5_obb/wiki/Troubleshooting
