@@ -13,8 +13,14 @@ After troubleshooting, I documented the issues and modifications of codes on the
 - cuda driver 12.2
 - GeForce RTX 3060
 
+## Modification
+There is a new parameter `return_result` on detect.py, returning array of *(class, [x1,y1,x2,y2,x3,y3,x4,y4], conf)*.
+
 ## Model Training
 If you have trouble training a model with the original repository, you can use my [train_model.ipynb](https://github.com/Jinops/conveyor-alignment-robot/blob/main/model/train_model.ipynb).
+
+## Server
+https://github.com/Jinops/conveyor-alignment-robot/blob/main/server/server.py
 
 ## Wiki
 https://github.com/Jinops/yolov5_obb/wiki/Troubleshooting
